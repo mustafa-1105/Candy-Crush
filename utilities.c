@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
-#define LIMIT 6
+#include "utilities.h"
+
 int **create_2D_array(int m, int n)
 {
     int **p;
