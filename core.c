@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include"utilities.h"
 #include"print.h"
+void shifting(int **p, int m, int n, int shift);
 
 int same_numbers_row(int **p, int m, int n, int *count, int *row, int *column)
 {
@@ -50,31 +51,44 @@ int same_numbers_column(int **p, int m, int n, int *count, int *row, int *column
     return 0;
 }
 
-int initialise(int m, int n)
+int initialize(int **p, int m, int n)
 {
-    int **p;
-    int count,row,column;
+    int count,row,column,shift;
     p=create_2D_array(m, n);
 
     randnum(p, m, n);
 
+    while(same_numbers_row(p, m, n, &count, &row, &column) || same_numbers_column(p, m, n, &count, &row, &column)){
+        p[row][column+1]=rand() % LIMIT;
+        p[column+1][row]=rand() % LIMIT;
+    }
     print(p, m, n);
 
-    same_numbers_row(p, m, n, &count, &row, &column);
+    printf("\nEnter the number of shifting : \n");
+    scanf("%d",&shift);
+    shifting(p, m, n, shift);
+    return;
+}
 
-    while( same_numbers_row(p, m, n, &count, &row, &column) ){
-        p[row][column+1]=rand() % LIMIT;
-        same_numbers_row(p, m, n, &count, &row, &column);
-
+void shifting(int **p, int m, int n, int shift)
+{
+    int i,j,k;
+    printf("shift - %d\n",shift);
+    for(k=0; k<shift; k++){
+        for(i=m-1; i>0; i--){
+            for(j=n-1; j>=0; j--){
+                p[i][j]=p[i-1][j];
+            }
+        }
     }
 
-    same_numbers_column(p, m, n, &count, &row, &column);
+    for(i=0; i<shift; i++){
+        for(j=0; j<n; j++){
+            p[i][j]=rand() % LIMIT;
+        }
+    }
 
-    while( same_numbers_column(p, m, n, &count, &row, &column) ){
-       p[column+1][row]=rand() % LIMIT;
-       same_numbers_column(p, m, n, &count, &row, &column);
-       }
+    printf("After shifting : \n");
 
-    printf("after removing same numbers\n");
     print(p, m, n);
 }
