@@ -65,7 +65,7 @@ int input(struct values val, int x, int y, char direction)
             return 0;
         }
 
-        _switch(val, x, y, direction);
+        _switch(val);
         return 0;
     } 
     return 1;

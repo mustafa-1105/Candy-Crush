@@ -118,19 +118,19 @@ int _switch(struct values val)//, int x, int y, char direction)
     int m = val.m;
     int n = val.n;
     
-    if(direction=='u'){
+    if(val.direction=='u'){
         temp=p[a-1][b];
         p[a-1][b]=p[a][b];
         p[a][b]=temp;
-    }   else if(direction=='d'){
+    }   else if(val.direction=='d'){
         temp=p[a+1][b];
         p[a+1][b]=p[a][b];
         p[a][b]=temp;  
-    }   else if(direction=='l'){
+    }   else if(val.direction=='l'){
         temp=p[a][b-1];
         p[a][b-1]=p[a][b];
         p[a][b]=temp;  
-    }   else if(direction=='r'){
+    }   else if(val.direction=='r'){
         temp=p[a][b+1];
         p[a][b+1]=p[a][b];
         p[a][b]=temp;  
@@ -138,12 +138,10 @@ int _switch(struct values val)//, int x, int y, char direction)
 
     while(same_numbers_row(p, m, n, &count, &row, &column) || same_numbers_column(p, m, n, &count, &row, &column)){
 
-    init_pair(11, COLOR_RED, -1);
 
     if(same_numbers_column(p, m, n, &count, &row, &column)){
             shifting_columns(p, m, n, column+count, row+1, count);
 
-            attron(COLOR_PAIR(11));
     
             if(count == 3){
                 val.score = val.score+100;
@@ -153,10 +151,9 @@ int _switch(struct values val)//, int x, int y, char direction)
                 val.score = val.score+500;
             }
 
-            attroff(COLOR_PAIR(11));
         }   else if(same_numbers_row(p, m, n, &count, &row, &column)){
+        
             shifting_rows(p, m, n, row+1, column+1, count);
-            attron(COLOR_PAIR(11));
 
             if(count == 3){
                 val.score = val.score+100;
@@ -167,22 +164,23 @@ int _switch(struct values val)//, int x, int y, char direction)
                 val.score = val.score+500;
             }
         }
-            attroff(COLOR_PAIR(11));
-        return 1;
+        
+    return 1;
     }
 
-    if(direction=='u'){
-        direction=='d';
-        reverse_switch(p, m, n, x, y, direction);
-    }   else if(direction=='d'){
-        direction=='u';
-        reverse_switch(p, m, n, x, y, direction);
-    }   else if(direction=='l'){
-        direction=='r';
-        reverse_switch(p, m, n, x, y, direction);
-    }   else if(direction=='r'){
-        direction=='l';
-        reverse_switch(p, m, n, x, y, direction);
+    if(val.direction=='u'){
+        val.direction=='d';
+        reverse_switch(val);
+    }   else if(val.direction=='d'){
+        val.direction=='u';
+        reverse_switch(val);
+    }   else if(val.direction=='l'){
+        val.direction=='r';
+        reverse_switch(val);
+    }   else if(val.direction=='r'){
+        val.direction=='l';
+        reverse_switch(val);
+       // reverse_switch(p, m, n, x, y, direction);
     }
 
     usleep(500 * 1000);
@@ -191,24 +189,25 @@ int _switch(struct values val)//, int x, int y, char direction)
 }
 
 
-int reverse_switch(int **p, int m, int n, int x, int y, char direction)
+int reverse_switch(struct values val)
 {
     int temp;
-    int a=x-1;
-    int b=y-1;
-    if(direction=='u'){
+    int a=val.x-1;
+    int b=val.y-1;
+    int **p = val.p;
+    if(val.direction=='u'){
         temp=p[a-1][b];
         p[a-1][b]=p[a][b];
         p[a][b]=temp;
-    }   else if(direction=='d'){
+    }   else if(val.direction=='d'){
         temp=p[a+1][b];
         p[a+1][b]=p[a][b];
         p[a][b]=temp;  
-    }   else if(direction=='l'){
+    }   else if(val.direction=='l'){
         temp=p[a][b-1];
         p[a][b-1]=p[a][b];
         p[a][b]=temp;  
-    }   else if(direction=='r'){
+    }   else if(val.direction=='r'){
         temp=p[a][b+1];
         p[a][b+1]=p[a][b];
         p[a][b]=temp;  

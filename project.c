@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     
         if(ch == 4){
         ch=accept_input(); 
-        call_switch(val, ch)//;, ch, x, y, direction);
+        call_switch(val, ch);//;, ch, x, y, direction);
         _switch(val);//, x, y, direction);
         }
         

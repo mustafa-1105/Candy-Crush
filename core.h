@@ -19,7 +19,7 @@ int same_numbers_column(int **p, int m, int n, int *count, int *row, int *column
 int **initialize(int m, int n);
 void shifting_rows(int **p, int m, int n, int x, int y, int shift);
 void shifting_columns(int **p, int m, int n, int x, int y, int shift);
-int _switch(struct values val, int x, int y, char direction);
-int reverse_switch(int **p, int m, int n, int x, int y, char direction);
+int _switch(struct values val);
+int reverse_switch(struct values val);
 
 #endif
