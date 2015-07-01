@@ -10,15 +10,8 @@
 #define COLS 7
 #define MILLI_SECONDS 1000
 
-int main(int argc, char *argv[]) 
-{    
-    struct values val;
-    int i,x,y;
-    val.m = ROWS;
-    val.n = COLS;
-    x=val.cursor_x = 0;
-    y=val.cursor_y = 0;
-    char direction;
+void initialize_game()
+{
 
     if(!initscr()) {
         printf("Error initializing screen.\n");
@@ -50,64 +43,72 @@ int main(int argc, char *argv[])
     init_pair(50, COLOR_MAGENTA,COLOR_WHITE);
     init_pair(60, COLOR_CYAN, COLOR_WHITE);
 
-    val.p = initialize(val.m, val.n); 
+}
+
+int main(int argc, char *argv[]) 
+{    
+    initialize_game();
+
+    struct values val;
+    int i;
+    val.m = ROWS;
+    val.n = COLS;
+    val.x = val.cursor_x = 0;
+    val.y = val.cursor_y = 0;
+    val.p = initialize(val); 
 
     mvprintw(0, 0, "Use Arrow keys for moving the cursor, Press Enter to select, press q to EXIT");
     
     attron(COLOR_PAIR(1));     
-    
     mvprintw(12, 51, "SCORE - 0");
-    
     attroff(COLOR_PAIR(1));     
     
     print(val);
     
     int ch;
-    
     while(TRUE){
       
-        ch=accept_input(); 
+        ch = accept_input(); 
         
         if(ch == 5){
-            break;
+            endwin();
+            return 0;
         }
     
         if(ch == 4){
-        ch=accept_input(); 
-        call_switch(val, ch);//;, ch, x, y, direction);
-        _switch(val);//, x, y, direction);
+            break;
         }
         
         if(ch == 0){
-            x=val.cursor_x=val.cursor_x-1;
+            val.x = val.cursor_x = val.cursor_x-1;
         }
 
         if(ch == 1){
-            x=val.cursor_x=val.cursor_x+1;
+            val.x = val.cursor_x = val.cursor_x+1;
         }
 
         if(ch == 2){
-            y=val.cursor_y=val.cursor_y+1;
+            val.y = val.cursor_y = val.cursor_y+1;
         }
 
         if(ch == 3){
-            y=val.cursor_y=val.cursor_y-1;
+            val.y = val.cursor_y = val.cursor_y-1;
         }
 
         if(val.cursor_x < 0){
-            x=val.cursor_x = 0;
+            val.x = val.cursor_x = 0;
         }
 
         if(val.cursor_y < 0){
-            y=val.cursor_y = 0;
+            val.y = val.cursor_y = 0;
         }
 
         if(val.cursor_x > val.m-1){
-            x=val.cursor_x = val.m-1;
+            val.x = val.cursor_x = val.m-1;
         }
 
         if(val.cursor_y > val.n-1){
-            y=val.cursor_y = val.n-1;
+            val.y = val.cursor_y = val.n-1;
         }
        
         print(val);
@@ -115,9 +116,15 @@ int main(int argc, char *argv[])
         refresh();
     }
     
+    ch=accept_input(); 
+
+    call_switch(val, ch);
+
+    print(val);
+
+    usleep(1000 * 1000);
+
     refresh();
-    
-    getch();
     
     endwin();
     

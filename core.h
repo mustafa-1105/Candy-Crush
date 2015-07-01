@@ -14,12 +14,18 @@ struct values
     char direction;
 };
 
-int same_numbers_row(int **p, int m, int n, int *count, int *row, int *column);
-int same_numbers_column(int **p, int m, int n, int *count, int *row, int *column);
-int **initialize(int m, int n);
-void shifting_rows(int **p, int m, int n, int x, int y, int shift);
-void shifting_columns(int **p, int m, int n, int x, int y, int shift);
+int same_numbers_row(struct values val, int *count, int *row, int *column);
+
+int same_numbers_column(struct values val, int *count, int *row, int *column);
+
+int **initialize(struct values val);
+
+void shifting_rows(struct values val, int x, int y, int shift);
+
+void shifting_columns(struct values val, int x, int y, int shift);
+
 int _switch(struct values val);
+
 int reverse_switch(struct values val);
 
 #endif
