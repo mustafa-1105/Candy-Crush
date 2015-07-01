@@ -10,6 +10,7 @@ struct values
     int cursor_x;
     int cursor_y;
     int score;
+    int moves;
     int x,y;
     char direction;
 };

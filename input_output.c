@@ -5,17 +5,27 @@
 
 char faces[][6] = {"0", "+", "#", "@", "*", "x"};
 
+void print_banner(struct values val)
+{
+    char line_1[] = "*****************************************";
+    char line_2[] = "************** CANDY CRUSH **************";
+    mvprintw(8, 41, "%s",line_1);
+    mvprintw(9, 41, "%s",line_2);
+    mvprintw(10, 41, "%s",line_1);
+    mvprintw(11, 41, "* Score: %5d ************* Moves: %2d",val.score, val.moves);
+}
+
 void print(struct values val)
 {
+    print_banner(val);
 
     int **p = val.p;
     int i,j,k;
 
     int x1 = 53;
 
-    mvprintw(12, 51, "SCORE - %d",val.score);
     
-    for(i = 0; i < val.n; i++){
+    /*for(i = 0; i < val.n; i++){
     
         x1 = x1+2;
         
@@ -23,12 +33,13 @@ void print(struct values val)
         
         mvprintw(14, x1, "--");
     }
+    */
 
     for(i = 0; i < val.m; i++) {
         
         int x = 53;
         
-        mvprintw(i+15, 50, "%2d | ",i+1);
+     //   mvprintw(i+15, 50, "%2d | ",i+1);
         
         for(j = 0; j < val.n; j++) {
             x = x+2;

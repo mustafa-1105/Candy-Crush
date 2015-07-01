@@ -139,72 +139,13 @@ int _switch(struct values val)
         val.p[a][b] = temp;  
     }
 
-    while(same_numbers_row(val, &count, &row, &column) || same_numbers_column(val, &count, &row, &column)){
-
-
-        if(same_numbers_column(val, &count, &row, &column)){
-
-            shifting_columns(val, column+count, row+1, count);
-
-            if(count == 3){
-
-                val.score = val.score+100;
-            }   else if(count == 4){
-
-                val.score = val.score+300;
-            }   else if(count == 5){
-
-                val.score = val.score+500;
-            }
-
-        }   else if(same_numbers_row(val, &count, &row, &column)){
-
-            shifting_rows(val, row+1, column+1, count);
-
-            if(count == 3){
-
-                val.score = val.score+100;
-            }   else if(count == 4){
-
-                val.score = val.score+300;
-            }
-            if(count == 5){
-
-                val.score = val.score+500;
-            }
-        }
-
-        return 1;
-    }
-
-    if(val.direction == 'u'){
-        val.direction == 'd';
-
-        reverse_switch(val);
-    }   else if(val.direction == 'd'){
-        val.direction == 'u';
-
-        reverse_switch(val);
-    }   else if(val.direction == 'l'){
-        val.direction == 'r';
-
-        reverse_switch(val);
-    }   else if(val.direction == 'r'){
-        val.direction == 'l';
-
-        reverse_switch(val);
-    }
-
-    usleep(500 * 1000);
-
-    print(val);
-
     return 0;
 }
 
 
 int reverse_switch(struct values val)
 {
+    /*
     int temp;
     int a=val.x-1;
     int b=val.y-1;
@@ -230,6 +171,21 @@ int reverse_switch(struct values val)
         val.p[a][b+1] = val.p[a][b];
         val.p[a][b] = temp;  
     }
+    return 0;
+    */
+
+    if(val.direction == 'u'){
+        val.direction = 1;
+    }   else if(val.direction == 'd'){
+        val.direction = 0;
+    }   else if(val.direction == 'l'){
+        val.direction = 2;
+    }   else if(val.direction == 'r'){
+        val.direction = 3;
+    }
+
+    call_switch(val, val.direction);
+
     return 0;
 }
 

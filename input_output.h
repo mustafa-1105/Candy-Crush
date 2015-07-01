@@ -7,7 +7,6 @@
 
 int input(struct values val);
 void print(struct values val);
-
-
+void print_banner(struct values val);
 
 #endif

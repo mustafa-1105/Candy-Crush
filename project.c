@@ -8,7 +8,9 @@
 
 #define ROWS 10
 #define COLS 7
+#define SECONDS 1000000
 #define MILLI_SECONDS 1000
+#define DELAY 1
 
 void initialize_game()
 {
@@ -49,6 +51,7 @@ int main(int argc, char *argv[])
 {    
     initialize_game();
 
+
     struct values val;
     int i;
     val.m = ROWS;
@@ -56,78 +59,109 @@ int main(int argc, char *argv[])
     val.x = val.cursor_x = 0;
     val.y = val.cursor_y = 0;
     val.p = initialize(val); 
+    val.moves = 10;
+    val.score = 0;
 
     mvprintw(0, 0, "Use Arrow keys for moving the cursor, Press Enter to select, press q to EXIT");
-    
-    attron(COLOR_PAIR(1));     
-    mvprintw(12, 51, "SCORE - 0");
-    attroff(COLOR_PAIR(1));     
-    
+
     print(val);
-    
+
     int ch;
-    while(TRUE){
-      
-        ch = accept_input(); 
-        
-        if(ch == 5){
-            endwin();
-            return 0;
-        }
-    
-        if(ch == 4){
-            break;
-        }
-        
-        if(ch == 0){
-            val.x = val.cursor_x = val.cursor_x-1;
+    while (val.moves > 0) { 
+        while(TRUE){
+
+            ch = accept_input(); 
+
+            if(ch == 5){
+                endwin();
+                return 0;
+            }
+
+            if(ch == 4){
+                break;
+            }
+
+            if(ch == 0){
+                val.x = val.cursor_x = val.cursor_x-1;
+            }
+
+            if(ch == 1){
+                val.x = val.cursor_x = val.cursor_x+1;
+            }
+
+            if(ch == 2){
+                val.y = val.cursor_y = val.cursor_y+1;
+            }
+
+            if(ch == 3){
+                val.y = val.cursor_y = val.cursor_y-1;
+            }
+
+            if(val.cursor_x < 0){
+                val.x = val.cursor_x = 0;
+            }
+
+            if(val.cursor_y < 0){
+                val.y = val.cursor_y = 0;
+            }
+
+            if(val.cursor_x > val.m-1){
+                val.x = val.cursor_x = val.m-1;
+            }
+
+            if(val.cursor_y > val.n-1){
+                val.y = val.cursor_y = val.n-1;
+            }
+
+            print(val);
+
+            refresh();
         }
 
-        if(ch == 1){
-            val.x = val.cursor_x = val.cursor_x+1;
+        ch=accept_input(); 
+
+        call_switch(val, ch);
+
+        int temp,count;
+        int row;
+        int column;
+        int done = FALSE;
+
+        while (TRUE) { 
+
+            print(val);
+            refresh();
+            usleep(DELAY * SECONDS);
+
+            if(same_numbers_column(val, &count, &row, &column)){
+                done = TRUE;
+                shifting_columns(val, column+count, row+1, count);
+
+            }   else if(same_numbers_row(val, &count, &row, &column)){
+
+                done = TRUE;
+                //shifting_columns(val, column+count, row+1, count);
+                shifting_rows(val, row+1, column+1, count);
+            } else { 
+                break;
+            }
         }
 
-        if(ch == 2){
-            val.y = val.cursor_y = val.cursor_y+1;
+        if (done) { 
+            val.moves--;
+            print(val);
+            refresh();
+        } else {
+            val.direction = ch;
+            reverse_switch(val);
+            print(val);
+            refresh();
+            usleep(DELAY * SECONDS);
         }
-
-        if(ch == 3){
-            val.y = val.cursor_y = val.cursor_y-1;
-        }
-
-        if(val.cursor_x < 0){
-            val.x = val.cursor_x = 0;
-        }
-
-        if(val.cursor_y < 0){
-            val.y = val.cursor_y = 0;
-        }
-
-        if(val.cursor_x > val.m-1){
-            val.x = val.cursor_x = val.m-1;
-        }
-
-        if(val.cursor_y > val.n-1){
-            val.y = val.cursor_y = val.n-1;
-        }
-       
-        print(val);
-        
-        refresh();
     }
-    
-    ch=accept_input(); 
 
-    call_switch(val, ch);
-
-    print(val);
-
-    usleep(1000 * 1000);
-
-    refresh();
-    
+    getch();
     endwin();
-    
+
     return 0;
 }
-
