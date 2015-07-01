@@ -9,7 +9,9 @@ struct values
     int n;
     int cursor_x;
     int cursor_y;
-
+    int score;
+    int x,y;
+    char direction;
 };
 
 int same_numbers_row(int **p, int m, int n, int *count, int *row, int *column);

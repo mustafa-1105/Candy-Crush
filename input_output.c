@@ -11,22 +11,24 @@ void print(struct values val)
     int **p = val.p;
     int i,j,k;
 
-    int x1=13;
+    int x1=53;
 
+    mvprintw(12, 51, "SCORE - %d",val.score);
+    
     for(i=0; i< val.n; i++){
     
         x1=x1+2;
         
-        mvprintw(8, x1, "%d ",i+1);
+        mvprintw(13, x1, "%d ",i+1);
         
-        mvprintw(9, x1, "--");
+        mvprintw(14, x1, "--");
     }
 
     for(i = 0; i < val.m; i++) {
         
-        int x=13;
+        int x=53;
         
-        mvprintw(i+10, 10, "%2d | ",i+1);
+        mvprintw(i+15, 50, "%2d | ",i+1);
         
         for(j = 0; j < val.n; j++) {
             x=x+2;
@@ -39,7 +41,7 @@ void print(struct values val)
             attron(A_BOLD);
 
             attron(COLOR_PAIR(color_id));
-            mvprintw(i+10, x, faces[p[i][j]]);
+            mvprintw(i+15, x, faces[p[i][j]]);
             attroff(COLOR_PAIR(color_id));
             attroff(A_BOLD);
         }
@@ -68,3 +70,40 @@ int input(struct values val, int x, int y, char direction)
     } 
     return 1;
 }
+
+int accept_input()
+{
+    char ch;
+
+    if ((ch = getch())== '\033') { // if the first value is esc
+       
+        getch(); // skip the [
+    
+        switch(getch()) { // the real value
+        
+            case 'A':
+                return 0;    
+                // code for arrow up
+            case 'B':
+                return 1;    
+                // code for arrow down
+            case 'C':
+                return 2;    
+                // code for arrow right
+            case 'D':
+                return 3;    
+                // code for arrow left
+        }
+    }
+    
+    if(ch == '\n'){
+        return 4;
+        // code for arrow enter
+    }   
+    
+    if(ch == 'q'){
+        return 5;
+                // code for arrow exit
+    }
+}
+

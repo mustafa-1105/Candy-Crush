@@ -1,25 +1,30 @@
 #include<stdio.h>
+#include<curses.h>
+#include<unistd.h>
 #include<stdlib.h>
 #include"utilities.h"
 #include"input_output.h"
 #include"core.h"
-int score;
 
 int same_numbers_row(int **p, int m, int n, int *count, int *row, int *column)
 {
     int i,j,y;
     int counter=1;
+
     for(i=0;i<m;i++){
         for(j=0;j<=n-3;j++){
             y=j;
+    
             while(y<n-1 && p[i][y]==p[i][y+1]){
                 y++;
                 counter++;
             }
+            
             if(counter>2){
                 (*row)=i;
                 (*column)=j;
                 (*count)=counter;
+            
                 return 1;
             }
             counter=1;
@@ -28,21 +33,26 @@ int same_numbers_row(int **p, int m, int n, int *count, int *row, int *column)
     return 0;
 }
 
+
 int same_numbers_column(int **p, int m, int n, int *count, int *row, int *column)
 {
     int i,j,y;
     int counter=1;
+
     for(i=0;i<n;i++){
         for(j=0;j<=m-3;j++){
             y=j;
+    
             while(y<m-1 && p[y][i]==p[y+1][i] ){
                 y++;
                 counter++;
             }
+            
             if(counter>2){
                 (*row)=i;
                 (*column)=j;
                 (*count)=counter;
+            
                 return 1;
             }
             counter=1;
@@ -56,6 +66,7 @@ int **initialize(int m, int n)
 {
     int **p;
     int count,row,column,shift;
+    
     p=create_2D_array(m, n);
 
     randnum(p, m, n);
@@ -71,40 +82,42 @@ int **initialize(int m, int n)
 
 void shifting_rows(int **p, int m, int n, int x, int y, int shift)
 {
-   int i;
-   for(i=0;i<shift;i++){        
-         shifting_columns(p, m, n, x, y, 1);
-          y++;
-   }
+    int i;
+    
+    for(i=0;i<shift;i++){           
+        shifting_columns(p, m, n, x, y, 1);
+        y++;
+    }
 }
 
 
 void shifting_columns(int **p, int m, int n, int x, int y, int shift)
 {
     int i,j,k;
+    
     for(k=0; k<shift; k++){
         for(i=x-1; i>0; i--){
-                p[i][y-1]=p[i-1][y-1];
+            p[i][y-1]=p[i-1][y-1];
         }
     }
 
     for(i=0; i<shift; i++){
-            p[i][y-1]=rand() % LIMIT;
+        p[i][y-1]=rand() % LIMIT;
     }
 }
 
-int _switch(struct values val, int x, int y, char direction)
+int _switch(struct values val)//, int x, int y, char direction)
 {
 
     int temp,count;
     int row;
     int column;
-    int a=x-1;
-    int b=y-1;
+    int a=val.x-1;
+    int b=val.y-1;
     int **p = val.p;
     int m = val.m;
     int n = val.n;
-
+    
     if(direction=='u'){
         temp=p[a-1][b];
         p[a-1][b]=p[a][b];
@@ -122,41 +135,42 @@ int _switch(struct values val, int x, int y, char direction)
         p[a][b+1]=p[a][b];
         p[a][b]=temp;  
     }
-    
-    while(same_numbers_row(p, m, n, &count, &row, &column) || same_numbers_column(p, m, n, &count, &row, &column)){
-     
-       /* if(same_numbers_column(p, m, n, &count, &row, &column) && same_numbers_row(p, m, n, &count, &row, &column)){
-            shifting_columns(p, m, n, column+count, row+1, count);
-            shifting_rows(p, m, n, row+1, column+1, count);
 
-        }    else*/
-        if(same_numbers_column(p, m, n, &count, &row, &column)){
-                shifting_columns(p, m, n, column+count, row+1, count);
-                
-                if(count == 3){
-                    score = score+100;
-                }   else if(count == 4){
-                    score = score+300;
-                }
-                 if(count == 5){
-                    score = score+500;
-                }
- 
-        }   else if(same_numbers_row(p, m, n, &count, &row, &column)){
-                shifting_rows(p, m, n, row+1, column+1, count);
- 
-                if(count == 3){
-                    score = score+100;
-                }   else if(count == 4){
-                    score = score+300;
-                }
-                 if(count == 5){
-                    score = score+500;
-                }
-        }
-    return 1;
-    }
+    while(same_numbers_row(p, m, n, &count, &row, &column) || same_numbers_column(p, m, n, &count, &row, &column)){
+
+    init_pair(11, COLOR_RED, -1);
+
+    if(same_numbers_column(p, m, n, &count, &row, &column)){
+            shifting_columns(p, m, n, column+count, row+1, count);
+
+            attron(COLOR_PAIR(11));
     
+            if(count == 3){
+                val.score = val.score+100;
+            }   else if(count == 4){
+                val.score = val.score+300;
+            }   else if(count == 5){
+                val.score = val.score+500;
+            }
+
+            attroff(COLOR_PAIR(11));
+        }   else if(same_numbers_row(p, m, n, &count, &row, &column)){
+            shifting_rows(p, m, n, row+1, column+1, count);
+            attron(COLOR_PAIR(11));
+
+            if(count == 3){
+                val.score = val.score+100;
+            }   else if(count == 4){
+                val.score = val.score+300;
+            }
+            if(count == 5){
+                val.score = val.score+500;
+            }
+        }
+            attroff(COLOR_PAIR(11));
+        return 1;
+    }
+
     if(direction=='u'){
         direction=='d';
         reverse_switch(p, m, n, x, y, direction);
@@ -171,6 +185,7 @@ int _switch(struct values val, int x, int y, char direction)
         reverse_switch(p, m, n, x, y, direction);
     }
 
+    usleep(500 * 1000);
     print(val);
     return 0;
 }
@@ -201,3 +216,32 @@ int reverse_switch(int **p, int m, int n, int x, int y, char direction)
     return 0;
 }
 
+int call_switch(struct values val, int ch){//, int x, int y, char direction){
+    if(ch == 0){
+        val.cursor_x=val.cursor_x-1;
+        val.x=val.cursor_x+2;
+        val.y=val.cursor_y+1;
+        val.direction='u';
+    }
+
+    if(ch == 1){
+        val.x=val.cursor_x=val.cursor_x+1;
+        val.y=val.cursor_y+1;
+        val.direction='d';
+    }
+
+    if(ch == 2){
+        val.y=val.cursor_y=val.cursor_y+1;
+        val.x=val.cursor_x+1;
+        val.direction='r';
+    }
+
+    if(ch == 3){
+        val.y=val.cursor_y=val.cursor_y-1;
+        val.x=val.cursor_x+1;
+        val.y=val.cursor_y+2;
+        val.direction='l';
+    }
+//    _switch(val, x, y, direction);
+    return 1;
+}
