@@ -140,7 +140,6 @@ int main(int argc, char *argv[])
             }   else if(same_numbers_row(val, &count, &row, &column)){
 
                 done = TRUE;
-                //shifting_columns(val, column+count, row+1, count);
                 shifting_rows(val, row+1, column+1, count);
             } else { 
                 break;

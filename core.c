@@ -145,35 +145,6 @@ int _switch(struct values val)
 
 int reverse_switch(struct values val)
 {
-    /*
-    int temp;
-    int a=val.x-1;
-    int b=val.y-1;
-    
-    if(val.direction == 'u'){
-        
-        temp=val.p[a-1][b];
-        val.p[a-1][b] = val.p[a][b];
-        val.p[a][b] = temp;
-    }   else if(val.direction == 'd'){
-     
-        temp = val.p[a+1][b];
-        val.p[a+1][b] = val.p[a][b];
-        val.p[a][b] = temp;  
-    }   else if(val.direction == 'l'){
-        
-        temp = val.p[a][b-1];
-        val.p[a][b-1] = val.p[a][b];
-        val.p[a][b] = temp;  
-    }   else if(val.direction == 'r'){
-        
-        temp = val.p[a][b+1];
-        val.p[a][b+1] = val.p[a][b];
-        val.p[a][b] = temp;  
-    }
-    return 0;
-    */
-
     if(val.direction == 'u'){
         val.direction = 1;
     }   else if(val.direction == 'd'){
@@ -220,4 +191,10 @@ int call_switch(struct values val, int ch){
    
     _switch(val);
     return 1;
+}
+
+int calc_score(int *count)
+{
+    if()
+        
 }
