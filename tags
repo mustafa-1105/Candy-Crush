@@ -1,0 +1,39 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+COLS	project.c	10;"	d	file:
+CORE_H	core.h	3;"	d
+INPUT_OUTPUT_H	input_output.h	3;"	d
+LIMIT	utilities.h	5;"	d
+MILLI_SECONDS	project.c	11;"	d	file:
+ROWS	project.c	9;"	d	file:
+UTILITIES_H	utilities.h	3;"	d
+_switch	core.c	/^int _switch(struct values val)$/;"	f
+accept_input	input_output.c	/^int accept_input()$/;"	f
+call_switch	core.c	/^int call_switch(struct values val, int ch){$/;"	f
+create_2D_array	utilities.c	/^int **create_2D_array(struct values val)$/;"	f
+cursor_x	core.h	/^    int cursor_x;$/;"	m	struct:values
+cursor_y	core.h	/^    int cursor_y;$/;"	m	struct:values
+direction	core.h	/^    char direction;$/;"	m	struct:values
+faces	input_output.c	/^char faces[][6] = {"0", "+", "#", "@", "*", "x"};$/;"	v
+initialize	core.c	/^int **initialize(struct values val)$/;"	f
+initialize_game	project.c	/^void initialize_game()$/;"	f
+input	input_output.c	/^int input(struct values val)$/;"	f
+m	core.h	/^    int m;$/;"	m	struct:values
+main	project.c	/^int main(int argc, char *argv[]) $/;"	f
+n	core.h	/^    int n;$/;"	m	struct:values
+p	core.h	/^    int **p;$/;"	m	struct:values
+print	input_output.c	/^void print(struct values val)$/;"	f
+randnum	utilities.c	/^void randnum(struct values val)$/;"	f
+reverse_switch	core.c	/^int reverse_switch(struct values val)$/;"	f
+same_numbers_column	core.c	/^int same_numbers_column(struct values val, int *count, int *row, int *column)$/;"	f
+same_numbers_row	core.c	/^int same_numbers_row(struct values val, int *count, int *row, int *column)$/;"	f
+score	core.h	/^    int score;$/;"	m	struct:values
+shifting_columns	core.c	/^void shifting_columns(struct values val, int x, int y, int shift)$/;"	f
+shifting_rows	core.c	/^void shifting_rows(struct values val, int x, int y, int shift)$/;"	f
+values	core.h	/^struct values$/;"	s
+x	core.h	/^    int x,y;$/;"	m	struct:values
+y	core.h	/^    int x,y;$/;"	m	struct:values

@@ -21,15 +21,18 @@ int same_numbers_row(struct values val, int *count, int *row, int *column)
             }
             
             if(counter > 2){
+
                 (*row) = i;
                 (*column) = j;
                 (*count) = counter;
             
                 return 1;
             }
+
             counter = 1;
         }
     }
+
     return 0;
 }
 
@@ -49,16 +52,19 @@ int same_numbers_column(struct values val, int *count, int *row, int *column)
             }
             
             if(counter > 2){
+
                 (*row) = i;
                 (*column) = j;
                 (*count) = counter;
             
                 return 1;
             }
+
             counter = 1;
         }
 
     }
+
     return 0;
 }
 
@@ -146,12 +152,16 @@ int _switch(struct values val)
 int reverse_switch(struct values val)
 {
     if(val.direction == 'u'){
+
         val.direction = 1;
     }   else if(val.direction == 'd'){
+
         val.direction = 0;
     }   else if(val.direction == 'l'){
+
         val.direction = 2;
     }   else if(val.direction == 'r'){
+
         val.direction = 3;
     }
 
@@ -164,6 +174,7 @@ int reverse_switch(struct values val)
 int call_switch(struct values val, int ch){
 
     if(ch == 0){
+
         val.cursor_x = val.cursor_x-1;
         val.x = val.cursor_x+2;
         val.y = val.cursor_y+1;
@@ -171,18 +182,21 @@ int call_switch(struct values val, int ch){
     }
 
     if(ch == 1){
+
         val.x = val.cursor_x = val.cursor_x+1;
         val.y = val.cursor_y+1;
         val.direction = 'd';
     }
 
     if(ch == 2){
+
         val.y = val.cursor_y = val.cursor_y+1;
         val.x = val.cursor_x+1;
         val.direction = 'r';
     }
 
     if(ch == 3){
+
         val.y = val.cursor_y = val.cursor_y-1;
         val.x = val.cursor_x+1;
         val.y = val.cursor_y+2;
@@ -190,11 +204,8 @@ int call_switch(struct values val, int ch){
     }
    
     _switch(val);
+
     return 1;
 }
 
-int calc_score(int *count)
-{
-    if()
-        
-}
+
